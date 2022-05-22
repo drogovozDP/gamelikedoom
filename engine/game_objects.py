@@ -1,0 +1,24 @@
+from engine.consts import *
+
+
+class GameObject:
+    def __init__(self, game_engine, x, y, clr):
+        self.game_engine = game_engine
+        self.x = x
+        self.y = y
+        self.clr = clr
+
+    def draw(self, shift):
+        pg = self.game_engine.pg
+        x, y = self.x + shift[0], self.y + shift[1]
+        return x, y, pg
+
+
+class Wall(GameObject):
+    def __init__(self, game_engine, x, y, clr, size):
+        super().__init__(game_engine, x, y, COLOR[clr])
+        self.size = size
+
+    def draw(self, shift):
+        x, y, pg = super(Wall, self).draw(shift)
+        pg.draw.rect(self.game_engine.screen, self.clr, pg.Rect(x, y, self.size, self.size))

@@ -1,6 +1,8 @@
 import pygame as pg
 from engine.graphic import Graphic
 from engine.consts import *
+from engine.player import Player
+from engine.game_objects import Wall
 
 
 class GameEngine:
@@ -13,6 +15,16 @@ class GameEngine:
         self.running = True
         self.lvl = 'lvl1'
         self.graphic = Graphic(self, width, height)
+        self.environment = self.generate_environment()
+        self.player = Player(self, x=self.graphic.cell_size * 1.5, y=self.graphic.cell_size * 1.5)
+
+    def generate_environment(self):
+        environment = []
+        size = self.graphic.cell_size
+        for y, row in enumerate(LEVELS[self.lvl]):
+            for x, cell in enumerate(row):
+                environment.append(Wall(self, x * size, y * size, cell, size))
+        return environment
 
     def run(self):
         while self.running:
@@ -24,14 +36,7 @@ class GameEngine:
         """
         All player's action will be processed here
         """
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.running = False
-
-        # player's input keys
-        pressed_keys = self.pg.key.get_pressed()
-        if pressed_keys[self.pg.K_ESCAPE]:
-            self.running = False
+        self.player.input_keys()
 
     def update_screen(self):
         """
