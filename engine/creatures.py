@@ -10,20 +10,26 @@ class Entity(GameObject):
         self.size = self.game_engine.graphic.cell_size // 2
         self.velocity = STANDARD_CREATURE_VELOCITY
         self.rotate_angle = ROTATE_ANGLE
-        self.ray = np.array([x, y + 300], ndmin=2)
+        self.direction = np.array([1, 0, 1])
+        self.ray = self._create_rays()
 
     def rotate(self, kfc):
-        R = get_rotate_matrix(kfc * self.rotate_angle)
-        M = get_move_matrix(self.x, self.y)
-        for i, ray in enumerate(self.ray):
-            self.ray[i] = ray @ R
-        self.x, self.y = np.array([self.x, self.y]) @ R
+        a = kfc * self.rotate_angle
+        R = get_rotate_matrix(a, self.direction[0], self.direction[1])
+        self.direction = R @ self.direction
+        self.ray = self._create_rays()
 
-    def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
-        self.ray[0, 0] += dx
-        self.ray[1, 0] += dy
+    def move(self, dy):
+        x, y, _ = dy * self.direction
+        M = get_move_matrix(x, y)
+        self.x, self.y, _ = np.array([self.x, self.y, 1]) @ M
+        for i, ray in enumerate(self.ray):
+            self.ray[i] = ray @ M
+
+    def _create_rays(self):
+        i, j, _ = self.direction
+        rays = np.array([self.x + i * 300, self.y + j * 300, 1], ndmin=2)
+        return rays
 
     def draw(self, shift):
         pg = self.game_engine.pg

@@ -20,16 +20,16 @@ class Player(Entity):
             self.game_engine.running = False
 
         if pressed_keys[pg.K_w]:
-            self.move(0, self.velocity)
+            self.move(self.velocity)
 
         if pressed_keys[pg.K_s]:
-            self.move(0, -self.velocity)
+            self.move(-self.velocity)
 
         if pressed_keys[pg.K_a]:
-            self.rotate(1)
+            self.rotate(-1)
 
         if pressed_keys[pg.K_d]:
-            self.rotate(-1)
+            self.rotate(1)
 
     def draw(self, shift):
         x, y, rx, ry, pg = super(Player, self).draw(shift)
