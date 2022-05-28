@@ -5,7 +5,6 @@ from engine.consts import *
 class Player(Entity):
     def __init__(self, game_engine, x, y):
         super().__init__(game_engine, x, y, COLOR[PLAYER])
-        self.size = self.game_engine.graphic.cell_size // 2
         self.velocity = PLAYER_VELOCITY
 
     def input_keys(self):
@@ -25,13 +24,13 @@ class Player(Entity):
         if pressed_keys[pg.K_s]:
             self.move(-self.velocity)
 
-        if pressed_keys[pg.K_a]:
+        if pressed_keys[pg.K_LEFT]:
             self.rotate(-1)
 
-        if pressed_keys[pg.K_d]:
+        if pressed_keys[pg.K_RIGHT]:
             self.rotate(1)
 
     def draw(self, shift):
         x, y, rx, ry, pg = super(Player, self).draw(shift)
-        pg.draw.circle(self.game_engine.screen, self.clr, (x, y), self.size)
+        pg.draw.circle(self.game_engine.screen, self.clr, (x, y), self.radius)
         pg.draw.line(self.game_engine.screen, (255, 255, 0), (x, y), (rx, ry), 3)
