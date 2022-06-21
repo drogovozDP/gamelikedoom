@@ -6,12 +6,14 @@ ROTATE_VELOCITY = 1e-3
 FLOOR = 0
 WALL = 1
 PLAYER = 2
+RAY = 'ray'
 COLOR = {
     'black': (0, 0, 0),
     'background': (0, 0, 0),
     WALL: (223, 131, 34),
     FLOOR: (20, 20, 20),
     PLAYER: (155, 0, 100),
+    RAY: (255, 255, 0)
 }
 
 LEVELS = {

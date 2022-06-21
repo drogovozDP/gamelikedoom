@@ -30,6 +30,10 @@ class Player(Entity):
         if pressed_keys[pg.K_RIGHT]:
             self.rotate(1)
 
+    def look_around(self):
+        objects, env_to_draw = self.vision.collision()
+        self.game_engine.env_to_draw = env_to_draw
+
     def draw(self, shift):
         x, y, rx, ry, pg = super(Player, self).draw(shift)
         pg.draw.circle(self.game_engine.screen, self.clr, (x, y), self.radius)

@@ -14,6 +14,7 @@ class GameEngine:
         self.FPS = 60
         self.running = True
         self.lvl = 'lvl1'
+        self.env_to_draw = []
         self.graphic = Graphic(self, width, height)
         self.environment = self.generate_environment()
         self.player = Player(self, x=self.graphic.cell_size * 1.5, y=self.graphic.cell_size * 1.5)
@@ -23,7 +24,8 @@ class GameEngine:
         size = self.graphic.cell_size
         for y, row in enumerate(LEVELS[self.lvl]):
             for x, cell in enumerate(row):
-                environment.append(Wall(self, x * size, y * size, cell, size))
+                if cell != FLOOR:
+                    environment.append(Wall(self, x * size, y * size, cell, size))
         return environment
 
     def run(self):
@@ -37,6 +39,7 @@ class GameEngine:
         All player's action will be processed here
         """
         self.player.input_keys()
+        self.player.look_around()
 
     def update_screen(self):
         """

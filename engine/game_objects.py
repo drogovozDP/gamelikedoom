@@ -22,6 +22,9 @@ class GameObject:
         x, y = self.x + shift[0], self.y + shift[1]
         return x, y, pg
 
+    def test(self):
+        self.clr = (255, 0, 0)
+
 
 class Wall(GameObject):
     def __init__(self, game_engine, x, y, clr, size):
@@ -32,7 +35,7 @@ class Wall(GameObject):
         wx, wy, ws = self.x, self.y, self.size
         for dot in shape:
             x, y, _ = dot
-            if wx <= x <= wx + ws and wy <= y <= wy + ws and self.clr == COLOR[WALL]:
+            if wx <= x <= wx + ws and wy <= y <= wy + ws:
                 return True
         return False
 

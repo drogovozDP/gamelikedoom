@@ -10,6 +10,7 @@ class Graphic:
         self.set_cell_wh()
 
     def draw_environment(self):
+        print(self.game_engine.env_to_draw)
         for obj in self.game_engine.environment:
             obj.draw(self.cell_pad)
         self.game_engine.player.draw(self.cell_pad)
