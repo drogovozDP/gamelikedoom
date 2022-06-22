@@ -1,7 +1,7 @@
 from engine.game_objects import GameObject
 from engine.consts import *
 from engine.math_functions import *
-from engine.raycasting import Ray
+from engine.raycasting import RayCasting
 import numpy as np
 
 
@@ -13,7 +13,7 @@ class Entity(GameObject):
         self.velocity = STANDARD_CREATURE_VELOCITY
         self.rotate_velocity = ROTATE_VELOCITY
         self.direction = np.array([1, 0, 1])
-        self.vision = Ray(game_engine, x, y, RAY, 200, self.direction)
+        self.vision = RayCasting(game_engine, x, y, self.direction, 10, 200)
 
     def rotate(self, kfc):
         a = kfc * ROTATE_VELOCITY
@@ -33,8 +33,6 @@ class Entity(GameObject):
         self.shape = shape.copy()  # Set new coordinates for the shape
         self.x, self.y, _ = np.array([self.x, self.y, 1]) @ M  # set a new center
         self.vision.move(M)
-        # for i, ray in enumerate(self.vision):  # move a rays
-        #     self.vision[i] = ray @ M
 
     def check_collision(self, shape):
         pass
@@ -52,7 +50,9 @@ class Entity(GameObject):
     def draw(self, shift):
         pg = self.game_engine.pg
         x, y = self.x + shift[0], self.y + shift[1]
-        # rx, ry = self.vision[0, 0] + shift[0], self.vision[0, 1] + shift[1]
-        rx, ry, _ = self.vision.length * self.vision.direction
-        rx, ry = rx + shift[0] + self.vision.x, ry + shift[1] + self.vision.y
-        return x, y, rx, ry, pg
+        rays = []
+        for ray in self.vision.rays:
+            rx, ry, _ = ray.length * ray.direction
+            rx, ry = rx + shift[0] + ray.x, ry + shift[1] + ray.y
+            rays.append((rx, ry))
+        return x, y, rays, pg

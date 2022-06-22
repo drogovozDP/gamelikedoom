@@ -31,10 +31,12 @@ class Player(Entity):
             self.rotate(1)
 
     def look_around(self):
-        objects, env_to_draw = self.vision.collision()
+        vision = self.vision.collision()
+        objects, env_to_draw = vision[:, 0], vision[:, 1]
         self.game_engine.env_to_draw = env_to_draw
 
     def draw(self, shift):
-        x, y, rx, ry, pg = super(Player, self).draw(shift)
+        x, y, rays, pg = super(Player, self).draw(shift)
         pg.draw.circle(self.game_engine.screen, self.clr, (x, y), self.radius)
-        pg.draw.line(self.game_engine.screen, (255, 255, 0), (x, y), (rx, ry), 3)
+        for rx, ry in rays:
+            pg.draw.line(self.game_engine.screen, (255, 255, 0), (x, y), (rx, ry), 3)
