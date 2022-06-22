@@ -9,13 +9,10 @@ class RayCasting:
         self.rays = self._create_rays(game_engine, x, y, length, direction, ray_count)
 
     def _create_rays(self, game_engine, x, y, length, direction, ray_count):
-        # print(ray_count)
-        rays = []
-        for i in range(-ray_count, ray_count, 1):
-            rays.append(
-                Ray(game_engine, x, y, RAY, length, get_rotate_matrix(i * 0.05, x, y) @ direction)
-            )
-        return rays
+        return [
+            Ray(game_engine, x, y, RAY, length, get_rotate_matrix(i * 0.05, x, y) @ direction)
+            for i in range(-ray_count, ray_count, 1)
+        ]
 
     def rotate(self, R):
         [ray.rotate(R) for ray in self.rays]

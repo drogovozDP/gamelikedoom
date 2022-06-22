@@ -47,7 +47,7 @@ class GameEngine:
         """
         if self.display_none:
             return
-        self.clock.tick()
+        self.clock.tick(self.FPS)
         self.screen.fill(COLOR['background'])
         self.graphic.draw_environment()
         self.pg.display.update()
