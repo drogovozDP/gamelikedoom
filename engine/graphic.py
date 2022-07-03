@@ -39,4 +39,3 @@ class Graphic:
         self.cell_pad = ((self.width - self.max_x * self.cell_size) / 2, 0) \
             if self.max_x * self.cell_size < self.width else \
             (0, (self.height - self.max_y * self.cell_size) / 2)
-        # self.cell_pad = (0, 0)
