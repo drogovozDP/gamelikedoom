@@ -9,8 +9,20 @@ class Graphic:
         self.set_max_xy()
         self.set_cell_wh()
 
+    def draw_player_view(self):
+        width = WIDTH / len(self.game_engine.player_view)
+        for i, dist in enumerate(self.game_engine.player_view):
+            height = HEIGHT / dist[1] * WALL_HEIGHT
+            self.game_engine.pg.draw.rect(
+                self.game_engine.screen,
+                COLOR[WALL],
+                self.game_engine.pg.Rect(
+                    width * i, (HEIGHT - height) / 2,
+                    width, height
+                )
+            )
+
     def draw_environment(self):
-        # print(self.game_engine.env_to_draw)
         for obj in self.game_engine.environment:
             obj.draw(self.cell_pad)
         self.game_engine.player.draw(self.cell_pad)

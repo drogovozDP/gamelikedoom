@@ -6,11 +6,13 @@ import numpy as np
 
 class RayCasting:
     def __init__(self, game_engine, x, y, direction, ray_count, length):
-        self.rays = self._create_rays(game_engine, x, y, length, direction, ray_count)
+        self.rays = self._create_rays(game_engine, x, y, length, direction, ray_count // 2)
 
     def _create_rays(self, game_engine, x, y, length, direction, ray_count):
+        view_range = 1 / (ray_count * 2)
         return [
-            Ray(game_engine, x, y, RAY, length, get_rotate_matrix(i * 0.05, x, y) @ direction)
+            Ray(game_engine, x, y, RAY, length,
+                get_rotate_matrix(i * view_range, x, y) @ direction, np.cos(i * view_range))
             for i in range(-ray_count, ray_count, 1)
         ]
 
@@ -21,21 +23,22 @@ class RayCasting:
         [ray.move(M) for ray in self.rays]
 
     def collision(self):
-        return np.array([ray.collision() for ray in self.rays] + [ray.collision() for ray in self.rays])
+        return np.array([ray.collision() for ray in self.rays])
 
 
 class Ray(GameObject):
-    def __init__(self, game_engine, x, y, clr, length, direction):
+    def __init__(self, game_engine, x, y, clr, length, direction, cos):
         super().__init__(game_engine, x, y, COLOR[clr])
         self.length = length
         self.direction = direction
+        self.cos = cos
 
     def collision(self, *args):
-        for length in np.linspace(0, self.length, 10):
+        for length in np.linspace(0, self.length, RAY_RATE):
             obj = self.check_collision(length)
             if obj is not None:
-                return obj, length
-        return None, self.length
+                return obj, length * self.cos
+        return None, self.length * self.cos
 
     def check_collision(self, length):
         dx, dy, _ = length * self.direction

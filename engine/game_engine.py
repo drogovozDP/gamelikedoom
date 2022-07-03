@@ -14,7 +14,7 @@ class GameEngine:
         self.FPS = 60
         self.running = True
         self.lvl = 'lvl1'
-        self.env_to_draw = []
+        self.player_view = []
         self.graphic = Graphic(self, width, height)
         self.environment = self.generate_environment()
         self.player = Player(self, x=self.graphic.cell_size * 1.5, y=self.graphic.cell_size * 1.5)
@@ -49,7 +49,8 @@ class GameEngine:
             return
         self.clock.tick(self.FPS)
         self.screen.fill(COLOR['background'])
-        self.graphic.draw_environment()
+        # self.graphic.draw_environment()
+        self.graphic.draw_player_view()
         self.pg.display.update()
 
     def game_events(self):

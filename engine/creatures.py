@@ -13,7 +13,7 @@ class Entity(GameObject):
         self.velocity = STANDARD_CREATURE_VELOCITY
         self.rotate_velocity = ROTATE_VELOCITY
         self.direction = np.array([1, 0, 1])
-        self.vision = RayCasting(game_engine, x, y, self.direction, 10, 200)
+        self.vision = RayCasting(game_engine, x, y, self.direction, RAY_COUNT, RAY_LENGTH)
 
     def rotate(self, kfc):
         a = kfc * ROTATE_VELOCITY

@@ -32,8 +32,8 @@ class Player(Entity):
 
     def look_around(self):
         vision = self.vision.collision()
-        objects, env_to_draw = vision[:, 0], vision[:, 1]
-        self.game_engine.env_to_draw = env_to_draw
+        # objects, player_view = vision[:, 0], vision[:, 1]
+        self.game_engine.player_view = vision
 
     def draw(self, shift):
         x, y, rays, pg = super(Player, self).draw(shift)
