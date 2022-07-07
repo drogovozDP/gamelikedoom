@@ -36,7 +36,8 @@ class Player(Entity):
         self.game_engine.player_view = vision
 
     def draw(self, shift):
-        x, y, rays, pg = super(Player, self).draw(shift)
+        x, y, pg = super(Player, self).draw(shift)
         pg.draw.circle(self.game_engine.screen, self.clr, (x, y), self.radius)
-        for rx, ry in rays:
-            pg.draw.line(self.game_engine.screen, (255, 255, 0), (x, y), (rx, ry), 3)
+        for ray, view in zip(self.vision.rays, self.game_engine.player_view):
+            rx, ry, _ = ray.direction * view[RAY_LEN]
+            pg.draw.line(self.game_engine.screen, (255, 255, 0), (x, y), (x + rx, y + ry), 3)

@@ -37,8 +37,8 @@ class Ray(GameObject):
         for length in np.linspace(0, self.length, RAY_RATE):
             obj = self.check_collision(length)
             if obj is not None:
-                return obj, length * self.cos
-        return None, self.length * self.cos
+                return {RAY_OBJ: obj, RAY_LEN: length, RAY_COS: self.cos}
+        return {RAY_OBJ: None, RAY_LEN: self.length, RAY_COS: self.cos}
 
     def check_collision(self, length):
         dx, dy, _ = length * self.direction

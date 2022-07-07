@@ -11,8 +11,8 @@ class Graphic:
 
     def draw_player_view(self):
         width = WIDTH / len(self.game_engine.player_view)
-        for i, dist in enumerate(self.game_engine.player_view):
-            height = HEIGHT / dist[1] * WALL_HEIGHT
+        for i, view in enumerate(self.game_engine.player_view):
+            height = HEIGHT / (view[RAY_LEN] * view[RAY_COS]) * WALL_HEIGHT
             self.game_engine.pg.draw.rect(
                 self.game_engine.screen,
                 COLOR[WALL],
